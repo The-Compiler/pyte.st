@@ -37,7 +37,7 @@
             <table>
                 {% for page in pages %}
                 <tr>
-                    <td><b><a href="https://pyte.st/{{ page.name }}">{{ page.name }}</a></b></td>
+                    <td><a href="https://pyte.st/{{ page.name }}"><span class="text-grey">pyte.st/</span><b class="text-light">{{ page.name }}</a></b></td>
                     <td><a href="{{ page.dest }}">{{ page.title }}</a></td>
                 </tr>
                 {% endfor %}
