@@ -92,7 +92,7 @@ def create_symlinks() -> None:
 
 if __name__ == "__main__":
     create_symlinks()
-    pages = list(parse_htaccess())
+    pages = sorted(parse_htaccess())
     print()
     for page in pages:
         fill_title(page)
