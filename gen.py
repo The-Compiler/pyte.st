@@ -1,3 +1,4 @@
+import re
 from typing import Iterator
 import dataclasses
 import pathlib
@@ -15,6 +16,7 @@ SYMLINKS = [
     ("style.css", "style.css"),
     ("style-vars.css", "style-vars.css"),
 ]
+TITLE_SUFFIX_RE = r" ([-— ] .* documentation|\| mathspp)"
 
 
 @dataclasses.dataclass
@@ -22,6 +24,23 @@ class Page:
     name: str
     dest: str
     title: str = ""
+
+    def _parsed(self) -> urllib.parse.ParseResult:
+        return urllib.parse.urlparse(self.dest)
+
+    @property
+    def is_pytest_doc(self) -> bool:
+        return self._parsed().hostname == "docs.pytest.org"
+
+    @property
+    def fragment(self) -> str:
+        return self._parsed().fragment
+
+    @property
+    def hostname(self) -> str:
+        hostname = self._parsed().hostname
+        assert hostname is not None
+        return hostname
 
 
 def gen_index(pages: list[Page]) -> None:
@@ -36,6 +55,7 @@ def gen_index(pages: list[Page]) -> None:
 
 
 def parse_htaccess() -> Iterator[Page]:
+
     htaccess_path = REPO_PATH / "htaccess"
     for line in htaccess_path.read_text().splitlines():
         try:
@@ -49,9 +69,6 @@ def parse_htaccess() -> Iterator[Page]:
 
 
 def fill_title(page: Page) -> None:
-    parsed = urllib.parse.urlparse(page.dest)
-    is_pytest_doc = parsed.hostname == "docs.pytest.org"
-
     r = requests.get(page.dest)
     r.raise_for_status()
 
@@ -59,25 +76,7 @@ def fill_title(page: Page) -> None:
 
     assert soup.title is not None, page
     assert soup.title.string is not None, page
-    page.title = soup.title.string.removesuffix(" - pytest documentation")
-
-    if parsed.fragment:
-        fragment_elem = soup.find(id=parsed.fragment)
-        assert fragment_elem is not None, page
-
-        if is_pytest_doc:
-            section = fragment_elem.find_parent("section")
-            assert section is not None, page
-            fragment_elem = section.find("h3") or section.find("h2")
-            assert fragment_elem is not None, page
-
-        assert fragment_elem.text, page
-        title = fragment_elem.text.rstrip("¶")
-        assert "\n" not in title, title
-        page.title += f": {title}"
-
-    if not is_pytest_doc:
-        page.title += f" ({parsed.hostname})"
+    page.title = re.sub(TITLE_SUFFIX_RE, "", soup.title.string)
 
     print(page.title)
     time.sleep(0.5)
