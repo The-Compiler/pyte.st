@@ -1,6 +1,6 @@
 import pathlib
 
-REPO_PATH = pathlib.Path(__file__).parent
+REPO_PATH = pathlib.Path(__file__).resolve().parent
 SYMLINKS = [
     ("htaccess", ".htaccess"),
     ("style.css", "style.css"),
