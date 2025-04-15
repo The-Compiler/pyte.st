@@ -3,33 +3,44 @@
 
 <head>
     <meta charset="utf-8">
-    <title>pyte.st URL shortener</title>
+    <title>pyte.st short URLs</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-vars.css">
 </head>
 
 <body>
     <div class="container">
         <section id="main">
             <h1>pyte.st</h1>
-            <p>
-                This page is run by <a href="https://bruhin.software/">Bruhin Software</a>:
-                pytest trainings and consulting by Florian Bruhin, one of pytest's core maintainers!
-            </p>
-            <p>
-                More content will follow. For now, you probably want to look at the
-                <a href="https://docs.pytest.org/en/stable/">pytest documentation</a> instead.
-            </p>
+
+            <div class="row">
+                <div class="col-2"> <a href="https://bruhin.software/"><img src="https://bruhin.software/img/bruhinsw.svg" alt="Bruhin Software logo" width="75%"></a>
+                </div>
+                <div class="col-4">
+                    <p>
+                        This page is run by <a href="https://bruhin.software/">Bruhin Software</a>:
+                    </p>
+                    <p>
+                        pytest trainings and consulting by Florian&nbsp;Bruhin, one of pytest's core maintainers!
+                    </p>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-2"> <a href="https://docs.pytest.org/en/stable/"><img src="https://bruhin.software/img/logos/pytest.svg" alt="pytest logo" width="75%"></a> </div>
+                <div class="col-3"> <a href="https://docs.pytest.org/en/stable/">pytest documentation</a> </div>
+            </div>
+
+            <p><a href="https://github.com/the-compiler/pyte.st">Page source on GitHub</a></p>
         </section>
 
         <section>
-            <h1>Available links</h1>
+            <h1>Available short links</h1>
             <table>
-            {% for page in pages %}
-            <tr>
-            <td><b><a href="https://pyte.st{{ page.name }}">{{ page.name }}</a></b></td>
-            <td><a href="{{ page.dest }}">{{ page.title }}</a></td>
-            </tr>
-            {% endfor %}
+                {% for page in pages %}
+                <tr>
+                    <td><b><a href="https://pyte.st/{{ page.name }}">{{ page.name }}</a></b></td>
+                    <td><a href="{{ page.dest }}">{{ page.title }}</a></td>
+                </tr>
+                {% endfor %}
             </table>
         </section>
     </div>

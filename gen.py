@@ -12,6 +12,7 @@ REPO_PATH = pathlib.Path(__file__).resolve().parent
 SYMLINKS = [
     ("htaccess", ".htaccess"),
     ("style.css", "style.css"),
+    ("style-vars.css", "style-vars.css"),
 ]
 
 
