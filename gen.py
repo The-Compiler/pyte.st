@@ -2,6 +2,7 @@ from typing import Iterator
 import dataclasses
 import pathlib
 import urllib.parse
+import time
 
 import jinja2
 import requests
@@ -78,6 +79,7 @@ def fill_title(page: Page) -> None:
         page.title += f" ({parsed.hostname})"
 
     print(page.title)
+    time.sleep(0.5)
 
 
 def create_symlinks() -> None:
