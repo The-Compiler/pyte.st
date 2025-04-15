@@ -20,6 +20,18 @@
                 <a href="https://docs.pytest.org/en/stable/">pytest documentation</a> instead.
             </p>
         </section>
+
+        <section>
+            <h1>Available links</h1>
+            <table>
+            {% for page in pages %}
+            <tr>
+            <td><b><a href="https://pyte.st{{ page.name }}">{{ page.name }}</a></b></td>
+            <td><a href="{{ page.dest }}">{{ page.title }}</a></td>
+            </tr>
+            {% endfor %}
+            </table>
+        </section>
     </div>
 </body>
 
