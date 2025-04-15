@@ -50,6 +50,7 @@ def parse_htaccess() -> Iterator[Page]:
 
 def fill_title(page: Page) -> None:
     parsed = urllib.parse.urlparse(page.dest)
+    is_pytest_doc = parsed.hostname == "docs.pytest.org"
 
     r = requests.get(page.dest)
     r.raise_for_status()
@@ -64,18 +65,18 @@ def fill_title(page: Page) -> None:
         fragment_elem = soup.find(id=parsed.fragment)
         assert fragment_elem is not None, page
 
-        # For pytest docs
-        if fragment_elem.name == "span":
+        if is_pytest_doc:
             section = fragment_elem.find_parent("section")
             assert section is not None, page
-            fragment_elem = section.find("h2")
+            fragment_elem = section.find("h3") or section.find("h2")
             assert fragment_elem is not None, page
 
         assert fragment_elem.text, page
         title = fragment_elem.text.rstrip("¶")
+        assert "\n" not in title, title
         page.title += f": {title}"
 
-    if parsed.hostname != "docs.pytest.org":
+    if not is_pytest_doc:
         page.title += f" ({parsed.hostname})"
 
     print(page.title)
