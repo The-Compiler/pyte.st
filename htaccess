@@ -1,1 +1,6 @@
 Redirect /raises https://docs.pytest.org/en/stable/how-to/assert.html#assertraises
+Redirect /venv https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/
+Redirect /survey https://lp.jetbrains.com/python-developers-survey-2023/
+Redirect /history https://docs.pytest.org/en/stable/history.html
+Redirect /discovery https://docs.pytest.org/en/stable/explanation/goodpractices.html#test-discovery
+Redirect /anatomy https://docs.pytest.org/en/stable/explanation/anatomy.html
